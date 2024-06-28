@@ -1,4 +1,7 @@
 name: NASA Project CI
+strategy:
+  matrix:
+    node-version: ['18.x', '20.x']
 on:
   push:
     branches: [ main ]
@@ -8,10 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js version 16
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          using: 'node20'
+          node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build --prefix client
